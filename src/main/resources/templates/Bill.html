@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body { font-family: Arial; }
+        .bill { border: 2px solid black; padding: 20px; width: 600px; }
+    </style>
+</head>
+<body>
+<div class="bill">
+    <h2>Invoice</h2>
+    <p><strong>Bill No:</strong> <span th:text="${billNo}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${name}"></span></p>
+    <p><strong>Product Name:</strong> <span th:text="${product}"></span></p>
+    <p><strong>Quantity:</strong> <span th:text="${quantity}"></span></p>
+    <p><strong>Total:</strong> <span th:text="${total}"></span></p>
+</div>
+</body>
+</html>
