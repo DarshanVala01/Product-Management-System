@@ -1,5 +1,6 @@
 package com.project.exceptionHandler;
 
+import com.project.response.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -32,6 +33,16 @@ public class GlobalExceptionHandler {
         });
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    private ResponseEntity<ExceptionResponse> resourceNotFoundException(ResourceNotFoundException ex){
+
+        String message = ex.getMessage();
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(message,HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse,HttpStatus.NOT_FOUND);
     }
 
 }

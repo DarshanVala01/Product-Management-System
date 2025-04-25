@@ -6,6 +6,7 @@ import com.project.entity.Bill;
 import com.project.entity.Customer;
 import com.project.entity.Order;
 import com.project.entity.Product;
+import com.project.exceptionHandler.ResourceNotFoundException;
 import com.project.repository.CustomerRepo;
 import com.project.repository.OrderRepo;
 import com.project.repository.ProductRepo;
@@ -34,9 +35,13 @@ public class OrderService {
 
     public OrderResponseDto addOrder(Order order) {
         OrderResponseDto orderResponseDto = new OrderResponseDto();
+        Customer customer = this.customerRepo.findById(order.getCustomer().getCustomerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with this customer id"));
+
+        Product product = this.productRepo.findById(order.getProduct().getProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with this product id"));
+
         try{
-            Customer customer = this.customerRepo.findById(order.getCustomer().getCustomerId()).get();
-            Product product = this.productRepo.findById(order.getProduct().getProductId()).get();
 
             // check product quantity of product is available or not
             if (order.getQuantity() > product.getInventoryCount()){
@@ -64,6 +69,7 @@ public class OrderService {
                 orderResponseDto.setMessage("Payment failed");
                 orderResponseDto.setHttpStatus(HttpStatus.BAD_REQUEST);
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }
